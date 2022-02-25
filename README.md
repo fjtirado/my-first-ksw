@@ -33,53 +33,8 @@ quarkus build
 
 ## Creating your first Workflow
 
-Go to the directory `src/main/resources` and create a file named `greetings.sw.yaml`. 
-You can play around and type the workflow definition by hand using the editor intellisense feature or copy and paste from the snnipet below:
-
-```yaml
-id: greetings
-version: '1.0'
-name: Greeting workflow
-description: YAML based greeting workflow
-start: ChooseOnLanguage
-functions:
-  - name: greetFunction
-    type: custom
-    operation: sysout
-states:
-  - name: ChooseOnLanguage
-    type: switch
-    dataConditions:
-      - condition: ${.language == \"English\"}
-        transition: GreetInEnglish
-      - condition: ${.language == \"Spanish\"}
-        transition: GreetInSpanish
-    defaultCondition:
-      transition: GreetInEnglish
-  - name: GreetInEnglish
-    type: inject
-    data:
-      greeting: 'Hello from YAML Workflow, '
-    transition: GreetPerson
-  - name: GreetInSpanish
-    type: inject
-    data:
-      greeting: 'Saludos desde YAML Workflow, '
-    transition: GreetPerson
-  - name: GreetPerson
-    type: operation
-    actions:
-      - name: greetAction
-        actionDataFilter:
-          fromStateData: |-
-            ${  { finalGreeting: (.greeting + \" \" + .name) } }
-        functionRef:
-          refName: greetFunction
-          arguments:
-            message: ${.finalGreeting}
-    end: true
-```
-
+Go to the directory `src/main/resources` and take a look at `greetings.sw.yaml`. 
+You can play around and type the workflow definition by hand using the editor intellisense feature or using the text editor of your choice
 Then run `quarkus dev` from the project's root to start the Quarkus console.
 
 To interact with the application, we have a couple of options described in the sections below.
